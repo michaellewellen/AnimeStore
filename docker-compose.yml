@@ -10,5 +10,19 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
 
+  website:
+    image: mcr.microsoft.com/dotnet/sdk:10.0
+    working_dir: /src
+    command: ["dotnet", "run", "--project", "AnimeStore.csproj", "--urls", "http://0.0.0.0:8080"]
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: Host=postgres;Port=5432;Database=animestore_db;Username=animestore_user;Password=devpassword123
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/src
+    depends_on:
+      - postgres
+
 volumes:
   pgdata:
