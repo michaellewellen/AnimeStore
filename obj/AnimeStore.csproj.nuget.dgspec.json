@@ -1,25 +1,31 @@
 {
   "format": 1,
   "restore": {
-    "/src/AnimeStore.csproj": {}
+    "C:\\Users\\michael.lewellen\\AnimeStore\\AnimeStore.csproj": {}
   },
   "projects": {
-    "/src/AnimeStore.csproj": {
+    "C:\\Users\\michael.lewellen\\AnimeStore\\AnimeStore.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/src/AnimeStore.csproj",
+        "projectUniqueName": "C:\\Users\\michael.lewellen\\AnimeStore\\AnimeStore.csproj",
         "projectName": "AnimeStore",
-        "projectPath": "/src/AnimeStore.csproj",
-        "packagesPath": "/root/.nuget/packages/",
-        "outputPath": "/src/obj/",
+        "projectPath": "C:\\Users\\michael.lewellen\\AnimeStore\\AnimeStore.csproj",
+        "packagesPath": "C:\\Users\\michael.lewellen\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\michael.lewellen\\AnimeStore\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/root/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\michael.lewellen\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -86,7 +92,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/10.0.400/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.400/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.AspNetCore": "(,10.0.32767]",
             "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",
