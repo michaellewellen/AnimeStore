@@ -1,5 +1,8 @@
 html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background: #f8f4ed;
+    color: #20232a;
+    font-family: Georgia, 'Times New Roman', serif;
+    margin: 0;
 }
 
 a, .btn-link {
@@ -57,4 +60,658 @@ h1:focus {
 
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
     text-align: start;
+}
+
+.cart-dot {
+    align-items: center;
+    aspect-ratio: 1;
+    background-color: #e44e42;
+    border-radius: 50%;
+    box-sizing: border-box;
+    color: white;
+    display: inline-flex;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 0.72rem;
+    font-weight: bold;
+    justify-content: center;
+    line-height: 1;
+    margin-left: 0.35rem;
+    min-width: 1.35rem;
+    padding: 0.2rem;
+}
+
+.cart-link {
+    align-items: center;
+    display: inline-flex;
+}
+
+.auth-page {
+    display: grid;
+    gap: clamp(2rem, 8vw, 7rem);
+    grid-template-columns: minmax(0, 1fr) minmax(18rem, 26rem);
+    margin: 0 auto;
+    max-width: 62rem;
+    padding: clamp(3rem, 9vw, 7rem) 0;
+}
+
+.auth-intro h1 {
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    letter-spacing: -0.05em;
+    line-height: 0.93;
+    margin: 0;
+    max-width: 25rem;
+}
+
+.auth-intro > p:last-child {
+    color: #746b62;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    margin-top: 1.5rem;
+    max-width: 20rem;
+}
+
+.auth-form {
+    align-self: center;
+    background: #fffdf9;
+    border: 1px solid #d5c9b9;
+    box-shadow: 8px 8px 0 #e9ded1;
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+.auth-form .validation-summary-errors,
+.auth-error-list,
+.auth-error {
+    color: #b13f35;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
+.auth-field {
+    margin-bottom: 1.25rem;
+}
+
+.auth-field label {
+    display: block;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+}
+
+.auth-field input {
+    background: #fffdf9;
+    border: 1px solid #d5c9b9;
+    box-sizing: border-box;
+    color: #20232a;
+    font: 1rem 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    padding: 0.85rem 0.9rem;
+    width: 100%;
+}
+
+.auth-field input:focus {
+    border-color: #20232a;
+    box-shadow: 4px 4px 0 #20232a;
+    outline: 0;
+}
+
+.auth-submit {
+    background: #20232a;
+    border: 0;
+    color: #fffdf9;
+    cursor: pointer;
+    display: flex;
+    font: 700 0.75rem 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    justify-content: space-between;
+    margin-top: 1.75rem;
+    padding: 0.9rem 1rem;
+    text-transform: uppercase;
+    width: 100%;
+}
+
+.auth-submit:hover {
+    background: #e44e42;
+}
+
+.auth-error-list {
+    margin: 1rem 0 0;
+    padding-left: 1.25rem;
+}
+
+@media (max-width: 700px) {
+    .auth-page {
+        grid-template-columns: 1fr;
+        padding-bottom: 3rem;
+        padding-top: 3rem;
+    }
+}
+
+.storefront-hero {
+    background: #ee674f;
+    color: #fffaf3;
+    margin: -1.1rem -1.5rem 0;
+    min-height: 18rem;
+    overflow: hidden;
+    padding: 3.8rem clamp(1.5rem, 6vw, 6rem);
+    position: relative;
+}
+
+.storefront-hero::after {
+    border: 2px solid rgba(255, 250, 243, 0.35);
+    border-radius: 50%;
+    content: '';
+    height: 30rem;
+    position: absolute;
+    right: -6rem;
+    top: -9rem;
+    width: 30rem;
+}
+
+.hero-copy {
+    max-width: 42rem;
+    position: relative;
+    z-index: 1;
+}
+
+.eyebrow, .product-category {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    margin: 0 0 0.75rem;
+    text-transform: uppercase;
+}
+
+.storefront-hero h1 {
+    font-size: clamp(2.5rem, 6vw, 5.25rem);
+    letter-spacing: -0.04em;
+    line-height: 0.95;
+    margin: 0;
+}
+
+.hero-description {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 1.5rem 0 0;
+    max-width: 28rem;
+}
+
+.storefront-search {
+    margin: 2rem 0 3.5rem;
+    width: 100%;
+}
+
+.storefront-search label {
+    display: block;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-bottom: 0.6rem;
+    text-transform: uppercase;
+}
+
+.search-field {
+    align-items: center;
+    background: #fffdf9;
+    border: 1px solid #d5c9b9;
+    display: flex;
+    gap: 0.75rem;
+    padding: 0.9rem 1.1rem;
+    width: 100%;
+}
+
+.search-field span {
+    color: #e44e42;
+    font-family: Arial, sans-serif;
+    font-size: 1.7rem;
+    line-height: 0.7;
+}
+
+.search-field input {
+    background: transparent;
+    border: 0;
+    color: #20232a;
+    font: 1rem 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    min-width: 0;
+    outline: 0;
+    width: 100%;
+}
+
+.search-field:focus-within {
+    border-color: #20232a;
+    box-shadow: 4px 4px 0 #20232a;
+}
+
+.section-heading {
+    align-items: end;
+    border-bottom: 1px solid #d5c9b9;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+}
+
+.section-heading h2 {
+    font-size: 2.1rem;
+    letter-spacing: -0.03em;
+    margin: 0;
+}
+
+.section-note {
+    color: #746b62;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 0.8rem;
+}
+
+.product-grid {
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.product-card {
+    background: #fffdf9;
+    border: 1px solid #d5c9b9;
+    margin: 0;
+    min-width: 0;
+    padding: 0;
+    text-align: left;
+}
+
+.product-image {
+    align-items: end;
+    aspect-ratio: 1 / 1.12;
+    color: rgba(255, 255, 255, 0.72);
+    display: flex;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    justify-content: flex-end;
+    letter-spacing: 0.12em;
+    overflow: hidden;
+    padding: 0.9rem;
+}
+
+.product-image-anime { background: linear-gradient(145deg, #263d5c, #6f8d9d 48%, #e88d68); }
+.product-image-anime-alt { background: linear-gradient(145deg, #4f334e, #b86e78 52%, #f0bd7b); }
+.product-image-origami { background: linear-gradient(145deg, #5d8b83, #a8c9b5 50%, #f4c27a); }
+.product-image-origami-alt { background: linear-gradient(145deg, #3b5671, #83a8bc 50%, #ed9674); }
+
+.product-details {
+    padding: 1.1rem;
+}
+
+.product-category {
+    color: #e44e42;
+    font-size: 0.65rem;
+    margin-bottom: 0.55rem;
+}
+
+.product-details h3 {
+    font-size: 1.2rem;
+    line-height: 1.1;
+    margin: 0;
+}
+
+.product-price {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin: 0.7rem 0 1rem;
+}
+
+.product-card button {
+    background: #20232a;
+    border: 0;
+    color: #fffdf9;
+    cursor: pointer;
+    font: 700 0.75rem 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    padding: 0.7rem 0.85rem;
+    text-transform: uppercase;
+    width: 100%;
+}
+
+.product-card button span {
+    float: right;
+    font-size: 1rem;
+    line-height: 0.8;
+}
+
+.product-card button:hover {
+    background: #e44e42;
+}
+
+.cart-page {
+    margin: 0 auto;
+    max-width: 72rem;
+    padding: 2.5rem 0 4rem;
+}
+
+.cart-header {
+    align-items: end;
+    border-bottom: 1px solid #d5c9b9;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2.5rem;
+    padding-bottom: 2rem;
+}
+
+.cart-header h1 {
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    letter-spacing: -0.05em;
+    line-height: 0.92;
+    margin: 0;
+}
+
+.cart-header-note {
+    color: #746b62;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    margin: 0 0 0.25rem;
+    text-align: right;
+    text-transform: uppercase;
+}
+
+.cart-layout {
+    align-items: start;
+    display: grid;
+    gap: clamp(2rem, 6vw, 5rem);
+    grid-template-columns: minmax(0, 1.55fr) minmax(18rem, 0.85fr);
+}
+
+.cart-section-heading {
+    margin-bottom: 0;
+}
+
+.cart-section-heading h2,
+.order-summary h2 {
+    font-size: 2rem;
+    letter-spacing: -0.03em;
+    margin: 0;
+}
+
+.cart-items {
+    border-bottom: 1px solid #d5c9b9;
+}
+
+.cart-item {
+    align-items: center;
+    border-bottom: 1px solid #d5c9b9;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 5.5rem minmax(0, 1fr) auto;
+    padding: 1.4rem 0;
+}
+
+.cart-item:last-child {
+    border-bottom: 0;
+}
+
+.cart-item-image {
+    align-items: end;
+    aspect-ratio: 1 / 1.12;
+    color: rgba(255, 255, 255, 0.72);
+    display: flex;
+    font: 700 0.52rem 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    justify-content: flex-end;
+    letter-spacing: 0.1em;
+    padding: 0.45rem;
+}
+
+.cart-item-details h3 {
+    font-size: 1.15rem;
+    line-height: 1.1;
+    margin: 0;
+}
+
+.cart-item-details .product-category {
+    margin-bottom: 0.4rem;
+}
+
+.cart-item-meta {
+    color: #746b62;
+    font: 0.78rem/1.4 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    margin: 0.45rem 0;
+}
+
+.remove-item {
+    background: transparent;
+    border: 0;
+    color: #746b62;
+    cursor: pointer;
+    font: 0.7rem 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    padding: 0;
+    text-decoration: underline;
+}
+
+.cart-item-actions {
+    align-items: end;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.cart-item-actions strong,
+.summary-lines strong,
+.summary-total strong {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.quantity-control {
+    align-items: center;
+    border: 1px solid #d5c9b9;
+    display: flex;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.quantity-control button {
+    background: transparent;
+    border: 0;
+    color: #20232a;
+    cursor: pointer;
+    font-size: 1rem;
+    height: 1.8rem;
+    width: 1.8rem;
+}
+
+.quantity-control span {
+    font-size: 0.8rem;
+    text-align: center;
+    width: 1rem;
+}
+
+.delivery-note {
+    align-items: center;
+    display: flex;
+    gap: 0.9rem;
+    padding-top: 1.5rem;
+}
+
+.delivery-mark {
+    align-items: center;
+    background: #e44e42;
+    color: #fffaf3;
+    display: flex;
+    font-size: 1.2rem;
+    height: 2.3rem;
+    justify-content: center;
+    width: 2.3rem;
+}
+
+.delivery-note strong,
+.delivery-note p {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 0.8rem;
+    margin: 0;
+}
+
+.delivery-note p {
+    color: #746b62;
+    margin-top: 0.2rem;
+}
+
+.order-summary {
+    background: #fffdf9;
+    border: 1px solid #d5c9b9;
+    padding: 1.7rem;
+}
+
+.summary-lines {
+    border-bottom: 1px solid #d5c9b9;
+    border-top: 1px solid #d5c9b9;
+    font: 0.85rem 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    margin: 1.5rem 0;
+    padding: 1rem 0;
+}
+
+.summary-lines div,
+.summary-total {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+}
+
+.summary-lines div + div {
+    margin-top: 0.75rem;
+}
+
+.summary-free {
+    color: #26815a;
+}
+
+.promo-field label {
+    color: #746b62;
+    display: block;
+    font: 0.75rem 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    margin-bottom: 0.5rem;
+}
+
+.promo-field div {
+    display: flex;
+}
+
+.promo-field input {
+    background: #f8f4ed;
+    border: 1px solid #d5c9b9;
+    color: #20232a;
+    font: 0.8rem 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    min-width: 0;
+    padding: 0.75rem;
+    width: 100%;
+}
+
+.promo-field button {
+    background: #20232a;
+    border: 0;
+    color: #fffdf9;
+    cursor: pointer;
+    font: 700 0.7rem 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    padding: 0 1rem;
+    text-transform: uppercase;
+}
+
+.summary-total {
+    border-top: 1px solid #d5c9b9;
+    font: 1rem 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+}
+
+.summary-total strong {
+    font-size: 1.45rem;
+}
+
+.checkout-button {
+    background: #e44e42;
+    border: 0;
+    color: #fffaf3;
+    cursor: pointer;
+    font: 700 0.78rem 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    margin-top: 1.4rem;
+    padding: 1rem;
+    text-align: left;
+    text-transform: uppercase;
+    width: 100%;
+}
+
+.checkout-button span {
+    float: right;
+    font-size: 1.1rem;
+    line-height: 0.7;
+}
+
+.checkout-button:hover {
+    background: #20232a;
+}
+
+.secure-note {
+    color: #746b62;
+    font: 0.68rem 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    margin: 1rem 0 0;
+    text-align: center;
+}
+
+@media (max-width: 760px) {
+    .cart-page {
+        padding-top: 1.5rem;
+    }
+
+    .cart-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .order-summary {
+        order: -1;
+    }
+}
+
+@media (max-width: 500px) {
+    .cart-header {
+        align-items: start;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .cart-header-note {
+        text-align: left;
+    }
+
+    .cart-item {
+        align-items: start;
+        grid-template-columns: 4.5rem minmax(0, 1fr);
+    }
+
+    .cart-item-actions {
+        align-items: center;
+        flex-direction: row;
+        grid-column: 2;
+        justify-content: space-between;
+    }
+}
+
+@media (max-width: 900px) {
+    .product-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 640px) {
+    .storefront-hero {
+        margin-left: -1rem;
+        margin-right: -1rem;
+        padding: 3rem 1.25rem;
+    }
+
+    .section-heading {
+        align-items: start;
+        flex-direction: column;
+        gap: 0.6rem;
+    }
+
+    .product-grid {
+        grid-template-columns: 1fr;
+    }
 }

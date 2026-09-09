@@ -2061,31 +2061,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\michael.lewellen\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\mwang\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\michael.lewellen\\AnimeStore\\AnimeStore.csproj",
+      "projectUniqueName": "C:\\Users\\mwang\\Code\\BackEnd\\AnimeStore\\AnimeStore.csproj",
       "projectName": "AnimeStore",
-      "projectPath": "C:\\Users\\michael.lewellen\\AnimeStore\\AnimeStore.csproj",
-      "packagesPath": "C:\\Users\\michael.lewellen\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\michael.lewellen\\AnimeStore\\obj\\",
+      "projectPath": "C:\\Users\\mwang\\Code\\BackEnd\\AnimeStore\\AnimeStore.csproj",
+      "packagesPath": "C:\\Users\\mwang\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\mwang\\Code\\BackEnd\\AnimeStore\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\michael.lewellen\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Users\\mwang\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net10.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {

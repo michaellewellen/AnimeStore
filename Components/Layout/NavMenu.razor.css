@@ -17,11 +17,13 @@
 
 .top-row {
     min-height: 3.5rem;
-    background-color: rgba(0,0,0,0.4);
+    background-color: #20232a;
 }
 
 .navbar-brand {
-    font-size: 1.1rem;
+    color: #fffaf3;
+    font-size: 1.35rem;
+    letter-spacing: -0.03em;
 }
 
 .bi {
@@ -60,7 +62,7 @@
     }
 
     .nav-item ::deep .nav-link {
-        color: #d7d7d7;
+        color: #d8d0c5;
         background: none;
         border: none;
         border-radius: 4px;
@@ -72,13 +74,13 @@
     }
 
 .nav-item ::deep a.active {
-    background-color: rgba(255,255,255,0.37);
-    color: white;
+    background-color: #e44e42;
+    color: #fffaf3;
 }
 
 .nav-item ::deep .nav-link:hover {
-    background-color: rgba(255,255,255,0.1);
-    color: white;
+    background-color: rgba(255, 250, 243, 0.1);
+    color: #fffaf3;
 }
 
 .nav-scrollable {

@@ -1,0 +1,117 @@
+﻿@page "/cart"
+
+<PageTitle>Cart</PageTitle>
+
+<section class="cart-page">
+	<header class="cart-header">
+		<div>
+			<p class="eyebrow">Your collection</p>
+			<h1>Ready to bring<br />these home?</h1>
+		</div>
+		<p class="cart-header-note">3 pieces<br />for your shelf</p>
+	</header>
+
+	<div class="cart-layout">
+		<div class="cart-main">
+			<div class="section-heading cart-section-heading">
+				<div>
+					<p class="eyebrow">Step one</p>
+					<h2>Review your order</h2>
+				</div>
+				<span class="section-note">Ships in 2–4 days</span>
+			</div>
+
+			<div class="cart-items">
+				<article class="cart-item">
+					<div class="cart-item-image product-image-anime"><span>FIGURE 01</span></div>
+					<div class="cart-item-details">
+						<p class="product-category">Anime collectibles</p>
+						<h3>Moonlit Hero Figure</h3>
+						<p class="cart-item-meta">Limited edition · 6 in</p>
+						<button class="remove-item" type="button">Remove</button>
+					</div>
+					<div class="cart-item-actions">
+						<div class="quantity-control" aria-label="Quantity for Moonlit Hero Figure">
+							<button type="button" aria-label="Decrease quantity">−</button>
+							<span>1</span>
+							<button type="button" aria-label="Increase quantity">+</button>
+						</div>
+						<strong>$24.99</strong>
+					</div>
+				</article>
+
+				<article class="cart-item">
+					<div class="cart-item-image product-image-anime-alt"><span>FIGURE 02</span></div>
+					<div class="cart-item-details">
+						<p class="product-category">Anime collectibles</p>
+						<h3>Spirit Fox Companion</h3>
+						<p class="cart-item-meta">Hand-painted finish · 4 in</p>
+						<button class="remove-item" type="button">Remove</button>
+					</div>
+					<div class="cart-item-actions">
+						<div class="quantity-control" aria-label="Quantity for Spirit Fox Companion">
+							<button type="button" aria-label="Decrease quantity">−</button>
+							<span>1</span>
+							<button type="button" aria-label="Increase quantity">+</button>
+						</div>
+						<strong>$18.50</strong>
+					</div>
+				</article>
+
+				<article class="cart-item">
+					<div class="cart-item-image product-image-origami"><span>ORIGAMI 01</span></div>
+					<div class="cart-item-details">
+						<p class="product-category">Origami</p>
+						<h3>Origami Crane Set</h3>
+						<p class="cart-item-meta">12 sheets · Handmade paper</p>
+						<button class="remove-item" type="button">Remove</button>
+					</div>
+					<div class="cart-item-actions">
+						<div class="quantity-control" aria-label="Quantity for Origami Crane Set">
+							<button type="button" aria-label="Decrease quantity">−</button>
+							<span>1</span>
+							<button type="button" aria-label="Increase quantity">+</button>
+						</div>
+						<strong>$1.99</strong>
+					</div>
+				</article>
+			</div>
+
+			<div class="delivery-note">
+				<span class="delivery-mark" aria-hidden="true">✦</span>
+				<div>
+					<strong>Free shipping unlocked</strong>
+					<p>Your order is over $40, so delivery is on us.</p>
+				</div>
+			</div>
+		</div>
+
+		<aside class="order-summary">
+			<p class="eyebrow">Step two</p>
+			<h2>Order summary</h2>
+
+			<div class="summary-lines">
+				<div><span>Subtotal</span><strong>$45.48</strong></div>
+				<div><span>Shipping</span><strong class="summary-free">Free</strong></div>
+				<div><span>Estimated tax</span><strong>$3.64</strong></div>
+			</div>
+
+			<div class="promo-field">
+				<label for="promo-code">Have a promo code?</label>
+				<div>
+					<input id="promo-code" type="text" placeholder="Enter code" />
+					<button type="button">Apply</button>
+				</div>
+			</div>
+
+			<div class="summary-total">
+				<span>Total</span>
+				<strong>$49.12</strong>
+			</div>
+
+			<button class="checkout-button" type="button">Continue to checkout <span aria-hidden="true">→</span></button>
+			<p class="secure-note"><span aria-hidden="true">⌁</span> Secure checkout · Taxes calculated at payment</p>
+		</aside>
+	</div>
+</section>
+
