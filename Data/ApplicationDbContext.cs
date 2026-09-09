@@ -9,4 +9,11 @@ public class ApplicationDbContext : IdentityDbContext
     {
         
     }
+    public DbSet<Product> Products { get; set; }
+    public DbSet<ProductVariant> ProductVariants { get; set; }
+    public DbSet<ProductImage> ProductImages { get; set; }
+    public DbSet<Review> Reviews { get; set; }
+    public DbSet<Supplier> Suppliers { get; set; }
+    public DbSet<Category> Category { get; set; }
+    public DbSet<Tag> Tags { get; set; }
 }
