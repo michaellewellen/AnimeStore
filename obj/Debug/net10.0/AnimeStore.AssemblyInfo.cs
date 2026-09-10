@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AnimeStore")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5cf43bd4a95eb09753ce09baefef14574eb376df")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a1af240837b70784a902caf3c9575bd4b165fde5")]
 [assembly: System.Reflection.AssemblyProductAttribute("AnimeStore")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AnimeStore")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
