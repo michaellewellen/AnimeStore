@@ -157,6 +157,107 @@ using (var scope = app.Services.CreateScope())
         dbContext.AddRange(images);
         dbContext.SaveChanges();
     }
+    if (!dbContext.Customers.Any())
+    {
+        // Pull back the variants we already seeded, since those old local
+        // variables no longer exist — this is a fresh query against real data.
+        var variants = dbContext.ProductVariants.Include(v => v.Product).ToList();
+        var windbreakerM = variants.First(v => v.Product.Sku == "JCK-001" && v.ProductSize == "M");
+        var figure = variants.First(v => v.Product.Sku == "FIG-001");
+        var hoodie = variants.First(v => v.Product.Sku == "JCK-002");
+        var cooler = variants.First(v => v.Product.Sku == "COOL-001");
+
+        // Customers — one registered, one registered, one guest (no UserId)
+        var mike = new Customer { Email = "mike@example.com", FirstName = "Mike", LastName = "Lewellen" };
+        var tara = new Customer { Email = "tara@example.com", FirstName = "Tara", LastName = "Dye" };
+        var guest = new Customer { Email = "jordan.guest@example.com", FirstName = "Jordan", LastName = "Guest" };
+
+        // Addresses
+        var mikeHome = new CustomerAddress
+        {
+            Customer = mike, RecipientName = "Michael Lewellen",
+            Address1 = "123 Anywhere St", City = "Ephraim", State = "UT", ZipCode = "84627",
+            IsPrimary = true
+        };
+        var mikeShipToTara = new CustomerAddress
+        {
+            Customer = mike, RecipientName = "Tara Dye",
+            Address1 = "456 Maple St", City = "Provo", State = "UT", ZipCode = "84601",
+            IsPrimary = false
+        };
+        var taraHome = new CustomerAddress
+        {
+            Customer = tara, RecipientName = "Tara Dye",
+            Address1 = "456 Maple St", City = "Provo", State = "UT", ZipCode = "84601",
+            IsPrimary = true
+        };
+        var guestAddress = new CustomerAddress
+        {
+            Customer = guest, RecipientName = "Jordan Guest",
+            Address1 = "321 Guest Ln", City = "Salt Lake City", State = "UT", ZipCode = "84101",
+            IsPrimary = true
+        };
+
+        // Carts — one per customer, some active items, one saved-for-later
+        var mikeCart = new Cart { Customer = mike };
+        var mikeCartItem1 = new CartItem { Cart = mikeCart, ProductVariant = hoodie, Quantity = 1, IsSavedForLater = false };
+        var mikeCartItem2 = new CartItem { Cart = mikeCart, ProductVariant = cooler, Quantity = 1, IsSavedForLater = true };
+
+        var taraCart = new Cart { Customer = tara };
+        var guestCart = new Cart { Customer = guest };
+
+        // Order 1 — Mike, already shipped, placed 10 days ago
+        var order1Items = new List<OrderItem>
+        {
+            new() { ProductVariant = windbreakerM, Quantity = 1, UnitPrice = windbreakerM.RetailPrice },
+            new() { ProductVariant = figure, Quantity = 2, UnitPrice = figure.RetailPrice }
+        };
+        var order1Subtotal = order1Items.Sum(i => i.Quantity * i.UnitPrice);
+        var order1Tax = PricingCalculator.CalculateTax(order1Subtotal);
+        var order1Shipping = 10.00m;
+
+        var order1 = new Order
+        {
+            Customer = mike,
+            ShippingAddress = mikeHome,
+            Status = OrderStatus.Shipped,
+            OrderDate = DateTime.UtcNow.AddDays(-10),
+            SubTotal = order1Subtotal,
+            TaxAmount = order1Tax,
+            ShippingCost = order1Shipping,
+            OrderTotal = order1Subtotal + order1Tax + order1Shipping,
+            Items = order1Items
+        };
+
+        // Order 2 — Guest, just placed today
+        var order2Items = new List<OrderItem>
+        {
+            new() { ProductVariant = hoodie, Quantity = 1, UnitPrice = hoodie.RetailPrice }
+        };
+        var order2Subtotal = order2Items.Sum(i => i.Quantity * i.UnitPrice);
+        var order2Tax = PricingCalculator.CalculateTax(order2Subtotal);
+        var order2Shipping = 10.00m;
+
+        var order2 = new Order
+        {
+            Customer = guest,
+            ShippingAddress = guestAddress,
+            Status = OrderStatus.Placed,
+            OrderDate = DateTime.UtcNow,
+            SubTotal = order2Subtotal,
+            TaxAmount = order2Tax,
+            ShippingCost = order2Shipping,
+            OrderTotal = order2Subtotal + order2Tax + order2Shipping,
+            Items = order2Items
+        };
+
+        dbContext.AddRange(mike, tara, guest);
+        dbContext.AddRange(mikeHome, mikeShipToTara, taraHome, guestAddress);
+        dbContext.AddRange(mikeCart, taraCart, guestCart);
+        dbContext.AddRange(mikeCartItem1, mikeCartItem2);
+        dbContext.AddRange(order1, order2);
+        dbContext.SaveChanges();
+    }
 }
 
 // Configure the HTTP request pipeline.
