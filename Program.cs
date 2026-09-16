@@ -279,4 +279,71 @@ app.MapStaticAssets();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
+app.MapGet("/products", async (ApplicationDbContext dbContext) =>
+{
+    var products = await dbContext.Products
+        // .Include(p => p.ProductId)
+        // .Include(p => p.Category)
+        // .Include(p => p.Supplier)
+        // .Include(p => p.Variants)
+        // .Include(p => p.Images)
+        // .Include(p => p.Tags)
+        // .Include(p => p.)
+        .Where(p => p.IsActive)
+        .ToListAsync();
+
+    return Results.Ok(products);
+});
+
+app.MapGet("/products/{id:int}", async (int id, ApplicationDbContext dbContext) =>
+{
+    var product = await dbContext.Products
+        // .Include(p => p.ProductId)
+        // .Include(p => p.Category)
+        // .Include(p => p.Supplier)
+        // .Include(p => p.Variants)
+        // .Include(p => p.Images)
+        // .Include(p => p.Tags)
+        .Where(p => p.IsActive)
+        .Select(p => new
+        {
+            p.ProductId,
+            p.Sku,
+            p.ShortName,
+            p.LongName,
+            p.Description,
+            p.IsActive,
+            Category = new { p.Category.CategoryId, p.Category.Name },
+            Supplier = new { p.Supplier.SupplierId, p.Supplier.SupplierName },
+            Variants = p.Variants.Select(v => new
+            {
+                v.ProductVariantId,
+                v.ProductSize,
+                v.ProductColor,
+                v.RetailPrice,
+                v.WholesalePrice,
+                v.StockQuantity
+            }),
+            Images = p.Images.Select(i => new
+            {
+                i.ProductImageId,
+                i.ImagePath,
+                i.DisplayOrder
+            }),
+            Tags = p.Tags.Select(t => new
+            {
+                t.TagId,
+                t.TagName
+            })
+        })
+        .FirstOrDefaultAsync(p => p.ProductId == id);
+
+    if (product == null)
+    {
+        return Results.NotFound();
+    }
+
+    return Results.Ok(product);
+});
+
 app.Run();
