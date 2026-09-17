@@ -1,117 +1,117 @@
 ﻿@page "/cart"
+@rendermode InteractiveServer
+@using AnimeStore.Data
+@using Microsoft.EntityFrameworkCore
+@inject ApplicationDbContext DbContext
+@inject GuestCartService GuestCartService
+@inject NavigationManager NavigationManager
 
 <PageTitle>Cart</PageTitle>
 
-<section class="cart-page">
-	<header class="cart-header">
-		<div>
-			<p class="eyebrow">Your collection</p>
-			<h1>Ready to bring<br />these home?</h1>
-		</div>
-		<p class="cart-header-note">3 pieces<br />for your shelf</p>
-	</header>
+@if (cart is null)
+{
+    <p>Loading your cart...</p>
+}
+else
+{
+    <section class="cart-page">
+        <div class="cart-items">
+            @foreach (var item in cart.Items.Where(i => !i.IsSavedForLater))
+            {
+                <article class="cart-item">
+                    <div class="cart-item-image">
+                        <img src="@item.ProductVariant.Product.Images.OrderBy(img => img.DisplayOrder).FirstOrDefault()?.ImagePath"
+                             alt="@item.ProductVariant.Product.ShortName" style="width:80px;" />
+                    </div>
+                    <div class="cart-item-details">
+                        <h3>@item.ProductVariant.Product.ShortName</h3>
+                        <p>@item.ProductVariant.ProductSize @item.ProductVariant.ProductColor</p>
+                        <button @onclick="() => SaveForLater(item)">Save for later</button>
+                        <button @onclick="() => RemoveItem(item)">Remove</button>
+                    </div>
+                    <div class="cart-item-actions">
+                        <button @onclick="() => ChangeQuantity(item, -1)">−</button>
+                        <span>@item.Quantity</span>
+                        <button @onclick="() => ChangeQuantity(item, 1)">+</button>
+                        <strong>@((item.Quantity * item.ProductVariant.RetailPrice).ToString("C"))</strong>
+                    </div>
+                </article>
+            }
+        </div>
 
-	<div class="cart-layout">
-		<div class="cart-main">
-			<div class="section-heading cart-section-heading">
-				<div>
-					<p class="eyebrow">Step one</p>
-					<h2>Review your order</h2>
-				</div>
-				<span class="section-note">Ships in 2–4 days</span>
-			</div>
+        @if (cart.Items.Any(i => i.IsSavedForLater))
+        {
+            <h2>Saved for later</h2>
+            @foreach (var item in cart.Items.Where(i => i.IsSavedForLater))
+            {
+                <article class="cart-item">
+                    <h3>@item.ProductVariant.Product.ShortName</h3>
+                    <button @onclick="() => MoveToCart(item)">Move to cart</button>
+                    <button @onclick="() => RemoveItem(item)">Remove</button>
+                </article>
+            }
+        }
 
-			<div class="cart-items">
-				<article class="cart-item">
-					<div class="cart-item-image product-image-anime"><span>FIGURE 01</span></div>
-					<div class="cart-item-details">
-						<p class="product-category">Anime collectibles</p>
-						<h3>Moonlit Hero Figure</h3>
-						<p class="cart-item-meta">Limited edition · 6 in</p>
-						<button class="remove-item" type="button">Remove</button>
-					</div>
-					<div class="cart-item-actions">
-						<div class="quantity-control" aria-label="Quantity for Moonlit Hero Figure">
-							<button type="button" aria-label="Decrease quantity">−</button>
-							<span>1</span>
-							<button type="button" aria-label="Increase quantity">+</button>
-						</div>
-						<strong>$24.99</strong>
-					</div>
-				</article>
+        <aside class="order-summary">
+            <div><span>Subtotal</span><strong>@SubTotal.ToString("C")</strong></div>
+            <div><span>Shipping</span><strong>@ShippingCost.ToString("C")</strong></div>
+            <div><span>Estimated tax</span><strong>@TaxAmount.ToString("C")</strong></div>
+            <div class="summary-total"><span>Total</span><strong>@OrderTotal.ToString("C")</strong></div>
 
-				<article class="cart-item">
-					<div class="cart-item-image product-image-anime-alt"><span>FIGURE 02</span></div>
-					<div class="cart-item-details">
-						<p class="product-category">Anime collectibles</p>
-						<h3>Spirit Fox Companion</h3>
-						<p class="cart-item-meta">Hand-painted finish · 4 in</p>
-						<button class="remove-item" type="button">Remove</button>
-					</div>
-					<div class="cart-item-actions">
-						<div class="quantity-control" aria-label="Quantity for Spirit Fox Companion">
-							<button type="button" aria-label="Decrease quantity">−</button>
-							<span>1</span>
-							<button type="button" aria-label="Increase quantity">+</button>
-						</div>
-						<strong>$18.50</strong>
-					</div>
-				</article>
+            <button @onclick="ProceedToCheckout" disabled="@(!cart.Items.Any(i => !i.IsSavedForLater))">
+                Continue to checkout
+            </button>
+        </aside>
+    </section>
+}
 
-				<article class="cart-item">
-					<div class="cart-item-image product-image-origami"><span>ORIGAMI 01</span></div>
-					<div class="cart-item-details">
-						<p class="product-category">Origami</p>
-						<h3>Origami Crane Set</h3>
-						<p class="cart-item-meta">12 sheets · Handmade paper</p>
-						<button class="remove-item" type="button">Remove</button>
-					</div>
-					<div class="cart-item-actions">
-						<div class="quantity-control" aria-label="Quantity for Origami Crane Set">
-							<button type="button" aria-label="Decrease quantity">−</button>
-							<span>1</span>
-							<button type="button" aria-label="Increase quantity">+</button>
-						</div>
-						<strong>$1.99</strong>
-					</div>
-				</article>
-			</div>
+@code {
+    private Data.Cart? cart;
 
-			<div class="delivery-note">
-				<span class="delivery-mark" aria-hidden="true">✦</span>
-				<div>
-					<strong>Free shipping unlocked</strong>
-					<p>Your order is over $40, so delivery is on us.</p>
-				</div>
-			</div>
-		</div>
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var guestToken = await GuestCartService.GetOrCreateGuestTokenAsync();
+            cart = await GuestCartService.GetOrCreateCurrentCartAsync(guestToken);
+            StateHasChanged();
+        }
+    }
 
-		<aside class="order-summary">
-			<p class="eyebrow">Step two</p>
-			<h2>Order summary</h2>
+    private decimal SubTotal => cart!.Items.Where(i => !i.IsSavedForLater)
+        .Sum(i => i.Quantity * i.ProductVariant.RetailPrice);
 
-			<div class="summary-lines">
-				<div><span>Subtotal</span><strong>$45.48</strong></div>
-				<div><span>Shipping</span><strong class="summary-free">Free</strong></div>
-				<div><span>Estimated tax</span><strong>$3.64</strong></div>
-			</div>
+    private decimal ShippingCost => 10.00m;
+    private decimal TaxAmount => PricingCalculator.CalculateTax(SubTotal);
+    private decimal OrderTotal => SubTotal + ShippingCost + TaxAmount;
 
-			<div class="promo-field">
-				<label for="promo-code">Have a promo code?</label>
-				<div>
-					<input id="promo-code" type="text" placeholder="Enter code" />
-					<button type="button">Apply</button>
-				</div>
-			</div>
+    private async Task ChangeQuantity(CartItem item, int delta)
+    {
+        item.Quantity = Math.Max(1, item.Quantity + delta);
+        await DbContext.SaveChangesAsync();
+    }
 
-			<div class="summary-total">
-				<span>Total</span>
-				<strong>$49.12</strong>
-			</div>
+    private async Task RemoveItem(CartItem item)
+    {
+        DbContext.CartItems.Remove(item);
+        cart!.Items.Remove(item);
+        await DbContext.SaveChangesAsync();
+    }
 
-			<button class="checkout-button" type="button">Continue to checkout <span aria-hidden="true">→</span></button>
-			<p class="secure-note"><span aria-hidden="true">⌁</span> Secure checkout · Taxes calculated at payment</p>
-		</aside>
-	</div>
-</section>
+    private async Task SaveForLater(CartItem item)
+    {
+        item.IsSavedForLater = true;
+        await DbContext.SaveChangesAsync();
+    }
 
+    private async Task MoveToCart(CartItem item)
+    {
+        item.IsSavedForLater = false;
+        await DbContext.SaveChangesAsync();
+    }
+
+    private void ProceedToCheckout()
+    {
+        NavigationManager.NavigateTo("/checkout");
+    }
+}

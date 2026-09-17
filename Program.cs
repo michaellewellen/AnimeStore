@@ -199,13 +199,12 @@ using (var scope = app.Services.CreateScope())
         };
 
         // Carts — one per customer, some active items, one saved-for-later
-        var mikeCart = new Cart { Customer = mike };
+        var mikeCart = new Cart { GuestToken = Guid.NewGuid().ToString(), Customer = mike };
         var mikeCartItem1 = new CartItem { Cart = mikeCart, ProductVariant = hoodie, Quantity = 1, IsSavedForLater = false };
         var mikeCartItem2 = new CartItem { Cart = mikeCart, ProductVariant = cooler, Quantity = 1, IsSavedForLater = true };
 
-        var taraCart = new Cart { Customer = tara };
-        var guestCart = new Cart { Customer = guest };
-
+        var taraCart = new Cart { GuestToken = Guid.NewGuid().ToString(), Customer = tara };
+        var guestCart = new Cart { GuestToken = Guid.NewGuid().ToString(), Customer = guest };
         // Order 1 — Mike, already shipped, placed 10 days ago
         var order1Items = new List<OrderItem>
         {

@@ -4,10 +4,11 @@ public class Cart
 {
     public int CartId { get; set; }
 
-    public int CutomerId { get; set; }
-    public Customer Customer { get; set; } = null!;
+    public string GuestToken { get; set; } = "";
+    public int? CustomerId { get; set; }
+    public Customer? Customer { get; set; }
 
     public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
     
-    public List<CartItem> Items { get; set; } = new()!; 
+    public List<CartItem> Items { get; set; } = new(); 
 }
