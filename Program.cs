@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using AnimeStore.Data;
 using AnimeStore.Components;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services.AddHttpClient();
 
 builder.Services.AddCascadingAuthenticationState();
 
@@ -44,7 +47,7 @@ using (var scope = app.Services.CreateScope())
         // Categories
         var apparel = new Category { Name = "Apparel" };
         var jackets = new Category { Name = "Jackets", ParentCategory = apparel };
-        var figures = new Category { Name = "Figures"};
+        var figures = new Category { Name = "Figures" };
 
         // Suppliers
         var supplier1 = new Supplier
@@ -57,7 +60,7 @@ using (var scope = app.Services.CreateScope())
             State = "UT",
             ZipCode = "84627",
             PhoneNumber = "555-0101",
-            Email = "aiko@kyotowholesale.example"            
+            Email = "aiko@kyotowholesale.example"
         };
         var supplier2 = new Supplier
         {
@@ -175,26 +178,42 @@ using (var scope = app.Services.CreateScope())
         // Addresses
         var mikeHome = new CustomerAddress
         {
-            Customer = mike, RecipientName = "Michael Lewellen",
-            Address1 = "123 Anywhere St", City = "Ephraim", State = "UT", ZipCode = "84627",
+            Customer = mike,
+            RecipientName = "Michael Lewellen",
+            Address1 = "123 Anywhere St",
+            City = "Ephraim",
+            State = "UT",
+            ZipCode = "84627",
             IsPrimary = true
         };
         var mikeShipToTara = new CustomerAddress
         {
-            Customer = mike, RecipientName = "Tara Dye",
-            Address1 = "456 Maple St", City = "Provo", State = "UT", ZipCode = "84601",
+            Customer = mike,
+            RecipientName = "Tara Dye",
+            Address1 = "456 Maple St",
+            City = "Provo",
+            State = "UT",
+            ZipCode = "84601",
             IsPrimary = false
         };
         var taraHome = new CustomerAddress
         {
-            Customer = tara, RecipientName = "Tara Dye",
-            Address1 = "456 Maple St", City = "Provo", State = "UT", ZipCode = "84601",
+            Customer = tara,
+            RecipientName = "Tara Dye",
+            Address1 = "456 Maple St",
+            City = "Provo",
+            State = "UT",
+            ZipCode = "84601",
             IsPrimary = true
         };
         var guestAddress = new CustomerAddress
         {
-            Customer = guest, RecipientName = "Jordan Guest",
-            Address1 = "321 Guest Ln", City = "Salt Lake City", State = "UT", ZipCode = "84101",
+            Customer = guest,
+            RecipientName = "Jordan Guest",
+            Address1 = "321 Guest Ln",
+            City = "Salt Lake City",
+            State = "UT",
+            ZipCode = "84101",
             IsPrimary = true
         };
 
@@ -280,61 +299,53 @@ app.MapRazorComponents<App>()
 
 app.MapGet("/products", async (ApplicationDbContext dbContext) =>
 {
-    var products = await dbContext.Products
-        // .Include(p => p.ProductId)
-        // .Include(p => p.Category)
-        // .Include(p => p.Supplier)
-        // .Include(p => p.Variants)
-        // .Include(p => p.Images)
-        // .Include(p => p.Tags)
-        // .Include(p => p.)
-        .Where(p => p.IsActive)
-        .ToListAsync();
+    List<Product> products = await dbContext.Products
+    // .Select(p => new
+    // {
+    //     p.ProductId,
+    //     p.ShortName,
+    //     p.LongName,
+    //     p.Category,
+    //     p.Supplier,
+    //     p.Variants,
+    //     p.Images,
+    //     Tags = p.Tags.Select(t => new { t.TagId, t.TagName })
+    // })
+    .Include(p => p.Category)
+        .Include(p => p.Supplier)
+        .Include(p => p.Variants)
+        .Include(p => p.Images)
+        .Include(p => p.Tags)
+        .Include(p => p.Reviews)
+    .ToListAsync();
 
-    return Results.Ok(products);
+    return Results.Json(products, new JsonSerializerOptions
+    {
+        WriteIndented = true,
+        ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles
+    });
 });
 
 app.MapGet("/products/{id:int}", async (int id, ApplicationDbContext dbContext) =>
 {
-    var product = await dbContext.Products
-        // .Include(p => p.ProductId)
-        // .Include(p => p.Category)
-        // .Include(p => p.Supplier)
-        // .Include(p => p.Variants)
-        // .Include(p => p.Images)
-        // .Include(p => p.Tags)
-        .Where(p => p.IsActive)
-        .Select(p => new
-        {
-            p.ProductId,
-            p.Sku,
-            p.ShortName,
-            p.LongName,
-            p.Description,
-            p.IsActive,
-            Category = new { p.Category.CategoryId, p.Category.Name },
-            Supplier = new { p.Supplier.SupplierId, p.Supplier.SupplierName },
-            Variants = p.Variants.Select(v => new
-            {
-                v.ProductVariantId,
-                v.ProductSize,
-                v.ProductColor,
-                v.RetailPrice,
-                v.WholesalePrice,
-                v.StockQuantity
-            }),
-            Images = p.Images.Select(i => new
-            {
-                i.ProductImageId,
-                i.ImagePath,
-                i.DisplayOrder
-            }),
-            Tags = p.Tags.Select(t => new
-            {
-                t.TagId,
-                t.TagName
-            })
-        })
+
+    Product? product = await dbContext.Products
+        .Include(p => p.Category)
+        .Include(p => p.Supplier)
+        .Include(p => p.Variants)
+        .Include(p => p.Images)
+        .Include(p => p.Tags)
+        .Include(p => p.Reviews)        // .Select(p => new
+                                        // {
+                                        //     p.ProductId,
+                                        //     p.ShortName,
+                                        //     p.LongName,
+                                        //     p.Category,
+                                        //     p.Supplier,
+                                        //     p.Variants,
+                                        //     p.Images,
+                                        //     Tags = p.Tags.Select(t => new { t.TagId, t.TagName })
+                                        // })
         .FirstOrDefaultAsync(p => p.ProductId == id);
 
     if (product == null)
@@ -342,7 +353,66 @@ app.MapGet("/products/{id:int}", async (int id, ApplicationDbContext dbContext) 
         return Results.NotFound();
     }
 
-    return Results.Ok(product);
+    return Results.Json(product, new JsonSerializerOptions
+    {
+        WriteIndented = true,
+        ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles
+    });
+});
+
+app.MapGet("/tags", async (ApplicationDbContext dbContext) =>
+{
+    var tags = await dbContext.Tags
+        .Include(tags => tags.Products)
+        .ToListAsync();
+
+    return Results.Json(tags, new JsonSerializerOptions
+    {
+        WriteIndented = true,
+        ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles
+    });
+});
+
+app.MapGet("/tags/{id:int}", async (int id, ApplicationDbContext dbContext) =>
+{
+    var tag = await dbContext.Tags
+        .Include(t => t.Products)
+        .ThenInclude(p => p.Category)
+        .Include(t => t.Products)
+        .ThenInclude(p => p.Supplier)
+        .FirstOrDefaultAsync(t => t.TagId == id);
+
+    if (tag == null)
+    {
+        return Results.NotFound();
+    }
+
+    return Results.Json(tag, new JsonSerializerOptions
+    {
+        WriteIndented = true,
+        ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles
+    });
+});
+
+app.MapGet("/tags/{name}", async (string name, ApplicationDbContext dbContext) =>
+{
+    var tag = await dbContext.Tags
+        .Include(t => t.Products)
+        .ThenInclude(p => p.Category)
+        .Include(t => t.Products)
+        .ThenInclude(p => p.Supplier)
+        .FirstOrDefaultAsync(t => t.TagName == name);
+
+    if (tag == null)
+    {
+        return Results.NotFound();
+    }
+
+    return Results.Json(tag, new JsonSerializerOptions
+    {
+        WriteIndented = true,
+        ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles
+    });
 });
 
 app.Run();
