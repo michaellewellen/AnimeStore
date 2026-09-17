@@ -351,9 +351,6 @@ C:\Users\mwang\Code\BackEnd\AnimeStore\obj\Debug\net10.0\refint\AnimeStore.dll
 C:\Users\mwang\Code\BackEnd\AnimeStore\obj\Debug\net10.0\AnimeStore.pdb
 C:\Users\mwang\Code\BackEnd\AnimeStore\obj\Debug\net10.0\AnimeStore.genruntimeconfig.cache
 C:\Users\mwang\Code\BackEnd\AnimeStore\obj\Debug\net10.0\ref\AnimeStore.dll
-C:\Users\mwang\Code\BackEnd\AnimeStore\obj\Debug\net10.0\compressed\truy5ikas3-{0}-5u7ylro8vb-5u7ylro8vb.gz
-C:\Users\mwang\Code\BackEnd\AnimeStore\obj\Debug\net10.0\compressed\16p1ntbfol-{0}-x2j3f4w5z2-x2j3f4w5z2.gz
-C:\Users\mwang\Code\BackEnd\AnimeStore\obj\Debug\net10.0\compressed\wkawefleq8-{0}-x2j3f4w5z2-x2j3f4w5z2.gz
 C:\Users\michael.lewellen\AnimeStore\bin\Debug\net10.0\appsettings.Development.json
 C:\Users\michael.lewellen\AnimeStore\bin\Debug\net10.0\appsettings.json
 C:\Users\michael.lewellen\AnimeStore\bin\Debug\net10.0\AnimeStore.staticwebassets.runtime.json
@@ -532,3 +529,6 @@ C:\Users\michael.lewellen\AnimeStore\obj\Debug\net10.0\refint\AnimeStore.dll
 C:\Users\michael.lewellen\AnimeStore\obj\Debug\net10.0\AnimeStore.pdb
 C:\Users\michael.lewellen\AnimeStore\obj\Debug\net10.0\AnimeStore.genruntimeconfig.cache
 C:\Users\michael.lewellen\AnimeStore\obj\Debug\net10.0\ref\AnimeStore.dll
+C:\Users\mwang\Code\BackEnd\AnimeStore\obj\Debug\net10.0\compressed\truy5ikas3-{0}-18dchvbgor-18dchvbgor.gz
+C:\Users\mwang\Code\BackEnd\AnimeStore\obj\Debug\net10.0\compressed\16p1ntbfol-{0}-0xdmzdo7k3-0xdmzdo7k3.gz
+C:\Users\mwang\Code\BackEnd\AnimeStore\obj\Debug\net10.0\compressed\wkawefleq8-{0}-0xdmzdo7k3-0xdmzdo7k3.gz

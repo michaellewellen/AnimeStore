@@ -19,4 +19,16 @@ public class Product
     public List<ProductImage> Images { get; set; } = new();
     public List<Review> Reviews { get; set; } = new();
     public List<Tag> Tags { get; set; } = new();
+
+
+    public string Serialize()
+    {
+        var json = System.Text.Json.JsonSerializer.Serialize(this, new System.Text.Json.JsonSerializerOptions
+        {
+            WriteIndented = true,
+            ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles
+        });
+        return json;
+    }
+
 }

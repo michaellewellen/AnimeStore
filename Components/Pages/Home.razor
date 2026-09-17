@@ -1,4 +1,8 @@
 ﻿@page "/"
+@using AnimeStore.Data
+
+@inject IHttpClientFactory HttpClientFactory
+@inject NavigationManager Navigation
 
 <PageTitle>Home</PageTitle>
 
@@ -6,70 +10,160 @@
     <div class="hero-copy">
         <p class="eyebrow">Curated for collectors</p>
         <h1>Small treasures.<br />Big anime energy.</h1>
-        <p class="hero-description">Discover playful figures, paper art, and desk-side favorites for your next collection.</p>
-    </div>
-</section>
-
-<div class="storefront-search">
-    <label for="product-search">Search the collection</label>
-    <div class="search-field">
-        <span aria-hidden="true">⌕</span>
-        <input id="product-search" type="text" placeholder="Search for products..." />
-    </div>
-</div>
-
-<section class="featured-section">
-    <div class="section-heading">
-        <div>
-            <p class="eyebrow">The good stuff</p>
-            <h2>Featured products</h2>
+        <p class="hero-description">Discover playful figures, paper art, and desk-side favorites for your next
+            collection.</p>
         </div>
-        <span class="section-note">Fresh picks for your shelf</span>
+    </section>
+
+    <div class="storefront-search">
+        <label for="product-search">Search the collection</label>
+        <div class="search-field">
+            <span aria-hidden="true">⌕</span>
+            <input id="product-search" type="text" placeholder="Search for products..." />
+        </div>
     </div>
 
-    <div class="product-grid">
-        <article class="product-card">
-            <div class="product-image product-image-anime"><span>FIGURE 01</span></div>
-            <div class="product-details">
-                <p class="product-category">Anime collectibles</p>
-                <h3>Moonlit Hero Figure</h3>
-                <p class="product-price">$24.99</p>
-                <button type="button">Add to cart <span aria-hidden="true">+</span></button>
+    <section class="featured-section home-page-section">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">The good stuff</p>
+                <h2>New Arrivals</h2>
             </div>
-        </article>
+            <span class="section-note">Fresh picks for your shelf</span>
+        </div>
 
-        <article class="product-card">
-            <div class="product-image product-image-anime-alt"><span>FIGURE 02</span></div>
-            <div class="product-details">
-                <p class="product-category">Anime collectibles</p>
-                <h3>Spirit Fox Companion</h3>
-                <p class="product-price">$18.50</p>
-                <button type="button">Add to cart <span aria-hidden="true">+</span></button>
+        @if (isLoading)
+        {
+            <p>Loading products...</p>
+        }
+        else if (loadError is not null)
+        {
+            <p role="alert">We couldn't load the products right now. Please try again later.</p>
+            <p>@loadError.Message</p>
+        }
+        else if (NewArrivals.Count == 0)
+        {
+            <p>No products match your search.</p>
+        }
+        else
+        {
+            <div class="product-grid">
+                @foreach (var product in NewArrivals)
+                {
+                    <NavLink href="@($"/details/{product.ProductId}")" class="product-card-link">
+                        <article class="product-card" @onclick="() => GoToProductDetails(product.ProductId)">
+                            <div class="product-image">
+                                @if (product.Images.Count > 0)
+                                {
+                                    <img src="@product.Images[0].ImagePath" alt="@product.LongName" />
+                                }
+                                else
+                                {
+                                    <span>@product.Sku</span>
+                                }
+                            </div>
+                            <div class="product-details">
+                                <p class="product-category">@product.Category.Name</p>
+                                <h3>@product.ShortName</h3>
+                                <p class="product-price">@(product.Variants.FirstOrDefault()?.RetailPrice.ToString("C") ?? "N/A")
+                                </p>
+                                <button type="button">Add to cart <span aria-hidden="true">+</span></button>
+                            </div>
+                        </article>
+                    </NavLink>
+                }
             </div>
-        </article>
+        }
+    </section>
 
-        <article class="product-card">
-            <div class="product-image product-image-origami"><span>ORIGAMI 01</span></div>
-            <div class="product-details">
-                <p class="product-category">Origami</p>
-                <h3>Origami Crane Set</h3>
-                <p class="product-price">$1.99</p>
-                <button type="button">Add to cart <span aria-hidden="true">+</span></button>
+    <section class="all-products-section home-page-section">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">Literally Everything</p>
+                <h2>All Products</h2>
             </div>
-        </article>
+            <span class="section-note">Browse our entire collection</span>
+        </div>
 
-        <article class="product-card">
-            <div class="product-image product-image-origami-alt"><span>ORIGAMI 02</span></div>
-            <div class="product-details">
-                <p class="product-category">Origami</p>
-                <h3>Sunset Paper Garden</h3>
-                <p class="product-price">$8.75</p>
-                <button type="button">Add to cart <span aria-hidden="true">+</span></button>
+        @if (isLoading)
+        {
+            <p>Loading products...</p>
+        }
+        else if (loadError is not null)
+        {
+            <p role="alert">We couldn't load the products right now. Please try again later.</p>
+        }
+        else if (AllProducts.Count == 0)
+        {
+            <p>No products match your search.</p>
+        }
+        else
+        {
+            <div class="product-grid">
+                @foreach (var product in AllProducts)
+                {
+                    <NavLink href="@($"/details/{product.ProductId}")" class="product-card-link">
+                        <article class="product-card" @onclick="() => GoToProductDetails(product.ProductId)">
+                            <div class="product-image">
+                                @if (product.Images.Count > 0)
+                                {
+                                    <img src="@product.Images[0].ImagePath" alt="@product.LongName" />
+                                }
+                                else
+                                {
+                                    <span>@product.Sku</span>
+                                }
+                            </div>
+                            <div class="product-details">
+                                <p class="product-category">@product.Category.Name</p>
+                                <h3>@product.ShortName</h3>
+                                <p class="product-price">@(product.Variants.FirstOrDefault()?.RetailPrice.ToString("C") ?? "N/A")
+                                </p>
+                                <button type="button">Add to cart <span aria-hidden="true">+</span></button>
+                            </div>
+                        </article>
+                    </NavLink>
+                }
             </div>
-        </article>
-    </div>
-</section>
+        }
+    </section>
 
 @code {
-    
+    private List<Product> products = [];
+    private string searchTerm = "";
+    private bool isLoading = true;
+    private Exception? loadError;
+
+    private List<Product> NewArrivals => products
+        .Where(product => product.Tags.Any(tag => tag.TagName == "New Arrival"))
+        .ToList();
+
+    private List<Product> AllProducts => products.ToList();
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var client = HttpClientFactory.CreateClient();
+            products = await client.GetFromJsonAsync<List<Product>>(
+                Navigation.ToAbsoluteUri("products")) ?? [];
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"Loaded {products.Count} products.");
+            Console.ResetColor();
+        }
+        catch (Exception exception)
+        {
+            loadError = exception;
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private void GoToProductDetails(int productId)
+    {
+        Console.WriteLine($"Navigating to product details for product ID: {productId}");
+        Navigation.NavigateTo($"/details/{productId}");
+    }
 }

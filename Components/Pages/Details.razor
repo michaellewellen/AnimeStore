@@ -1,0 +1,155 @@
+@page "/details/{ProductId:int}"
+@using AnimeStore.Data
+
+@inject IHttpClientFactory HttpClientFactory
+
+@inject NavigationManager Navigation
+
+<div class="product-page">
+
+    <div class="breadcrumb">
+        <a href="/">Home</a>
+        <span class="sep">/</span>
+        <span>@(product?.Category.Name ?? "Product")</span>
+        <span class="sep">/</span>
+        <span class="current">@(product?.ShortName ?? "Loading...")</span>
+    </div>
+
+    @if (product is null)
+    {
+        <p class="loading">Loading product...</p>
+    }
+    else
+    {
+        <div class="product-layout">
+
+            <div class="product-gallery">
+                <div class="main-image">
+                    <img src="@product.Images.FirstOrDefault()?.ImagePath ?? """ alt="@product.LongName" />
+                </div>
+                @* @if (product.ThumbnailUrls is { Count: > 0 })
+                {
+                    <div class="thumbnail-row">
+                        @foreach (var thumb in product.ThumbnailUrls)
+                        {
+                            <button class="thumbnail @(thumb == SelectedThumbnail ? "active" : "")"
+                                    @onclick="() => SelectedThumbnail = thumb">
+                                <img src="@thumb" alt="thumbnail" />
+                            </button>
+                        }
+                    </div>
+                } *@
+            </div>
+
+            <div class="product-info">
+                <span class="eyebrow">@product.Category?.Name.ToUpper()</span>
+                <h1>@product.LongName</h1>
+
+                <div class="price-row">
+                    <span class="price">@(SelectedVariant?.RetailPrice.ToString("C") ?? "Price unavailable")</span>
+                    @* @if (product.OriginalPrice is > 0)
+                    {
+                        <span class="original-price">@product.OriginalPrice.Value.ToString("C")</span>
+                    } *@
+                </div>
+
+                <p class="description">@product.Description</p>
+
+                @if (product.Variants is { Count: > 0 })
+                {
+                    <div class="variant-section">
+                        <span class="variant-label">SIZE</span>
+                        <div class="variant-options">
+                            @foreach (var variant in product.Variants)
+                            {
+                                <button class="variant-pill @(variant == SelectedVariant ? "active" : "")"
+                                        @onclick="() => SelectedVariant = variant">
+                                    @variant.ProductSize
+                                </button>
+                            }
+                        </div>
+                    </div>
+                }
+
+                <div class="quantity-row">
+                    <span class="variant-label">QUANTITY</span>
+                    <div class="quantity-stepper">
+                        <button @onclick="DecrementQuantity">-</button>
+                        <span>@Quantity</span>
+                        <button @onclick="IncrementQuantity">+</button>
+                    </div>
+                </div>
+
+                <div class="action-row">
+                    <button class="btn-primary" @onclick="AddToCart">Add to Cart</button>
+                    @* <button class="btn-secondary" @onclick="ToggleWishlist">
+                        @(IsWishlisted ? "♥" : "♡")
+                    </button> *@
+                </div>
+
+                @* @if (product.Stock > 0)
+                {
+                    <p class="stock-note in-stock">In stock and ready to ship</p>
+                }
+                else
+                {
+                    <p class="stock-note out-of-stock">Currently out of stock</p>
+                } *@
+
+                <div class="detail-accordion">
+                    <details open>
+                        <summary>Details</summary>
+                        <p>@product.Description</p>
+                    </details>
+                    <details>
+                        <summary>Shipping &amp; Returns</summary>
+                        <p>Ships within 2-3 business days. Returns accepted within 30 days of delivery.</p>
+                    </details>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public int ProductId { get; set; }
+
+    private Product? product;
+    private string? SelectedThumbnail;
+    private ProductVariant? SelectedVariant;
+    private int Quantity = 1;
+    private bool isLoading = true;
+    private Exception? loadError;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var client = HttpClientFactory.CreateClient();
+            Console.WriteLine($"Loading product with ID {ProductId}.");
+            product = await client.GetFromJsonAsync<Product>(
+                Navigation.ToAbsoluteUri($"products/{ProductId}")) ?? null;
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"Loaded product: {product?.LongName ?? "null"}");
+            Console.ResetColor();
+        }
+        catch (Exception exception)
+        {
+            loadError = exception;
+        }
+        finally
+        {
+            isLoading = false;
+        }
+        SelectedThumbnail = product?.Images.FirstOrDefault()?.ImagePath;
+        @* SelectedVariant = product?.Variants.FirstOrDefault(); *@
+    }
+
+    private void IncrementQuantity() => Quantity++;
+    private void DecrementQuantity() { if (Quantity > 1) Quantity--; }
+
+    private void AddToCart()
+    {
+        // TODO: wire up to your cart service
+    }
+}

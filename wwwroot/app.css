@@ -305,6 +305,12 @@ h1:focus {
     font-size: 0.8rem;
 }
 
+.home-page-section {
+    margin: 0 auto;
+    max-width: 72rem;
+    padding: 2.5rem 0 4rem;
+}
+
 .product-grid {
     display: grid;
     gap: 1.25rem;
@@ -319,6 +325,11 @@ h1:focus {
     padding: 0;
     text-align: left;
 }
+.product-card:hover {
+    box-shadow: 4px 4px 0 #20232a;
+    scale: 1.01;
+    transition: all 0.1s ease-in-out;
+}
 
 .product-image {
     align-items: end;
@@ -332,6 +343,13 @@ h1:focus {
     letter-spacing: 0.12em;
     overflow: hidden;
     padding: 0.9rem;
+}
+
+.product-image img {
+    display: block;
+    height: 100%;
+    object-fit: cover;
+    width: 100%;
 }
 
 .product-image-anime { background: linear-gradient(145deg, #263d5c, #6f8d9d 48%, #e88d68); }
@@ -714,4 +732,280 @@ h1:focus {
     .product-grid {
         grid-template-columns: 1fr;
     }
+}
+
+/* ===== AnimeStore theme tokens =====
+   Reuse these variables (or move them to your site.css :root)
+   so every page shares the same palette. */
+.product-page {
+    --coral: #e2603e;
+    --coral-dark: #c94f30;
+    --cream: #f7f1e8;
+    --ink: #1c1c1c;
+    --ink-soft: #5a5650;
+    --border: #e6ddce;
+
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 32px 40px 80px;
+    background: var(--cream);
+    color: var(--ink);
+    font-family: "Segoe UI", system-ui, sans-serif;
+}
+
+.loading {
+    padding: 60px 0;
+    color: var(--ink-soft);
+}
+
+/* Breadcrumb */
+.breadcrumb {
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    margin-bottom: 28px;
+}
+.breadcrumb a {
+    color: var(--ink-soft);
+    text-decoration: none;
+}
+.breadcrumb a:hover {
+    color: var(--coral);
+}
+.breadcrumb .sep {
+    margin: 0 8px;
+    opacity: 0.5;
+}
+.breadcrumb .current {
+    color: var(--ink);
+    font-weight: 600;
+}
+
+/* Layout */
+.product-layout {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 56px;
+}
+
+@media (max-width: 860px) {
+    .product-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Gallery */
+.main-image {
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+}
+.main-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.thumbnail-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 14px;
+}
+.thumbnail {
+    width: 70px;
+    height: 70px;
+    padding: 0;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
+}
+.thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.thumbnail.active {
+    border-color: var(--coral);
+    outline: 1px solid var(--coral);
+}
+
+/* Info column */
+.eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    color: var(--coral);
+    font-weight: 700;
+}
+
+.product-info h1 {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 2.4rem;
+    line-height: 1.15;
+    margin: 8px 0 16px;
+}
+
+.price-row {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+.price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--ink);
+}
+.original-price {
+    font-size: 1rem;
+    color: var(--ink-soft);
+    text-decoration: line-through;
+}
+
+.description {
+    color: var(--ink-soft);
+    line-height: 1.6;
+    margin-bottom: 24px;
+}
+
+.variant-label {
+    display: block;
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    font-weight: 700;
+    color: var(--ink-soft);
+    margin-bottom: 8px;
+}
+
+.variant-section {
+    margin-bottom: 20px;
+}
+.variant-options {
+    display: flex;
+    gap: 8px;
+}
+.variant-pill {
+    min-width: 42px;
+    padding: 8px 14px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+.variant-pill:hover {
+    border-color: var(--coral);
+}
+.variant-pill.active {
+    background: var(--coral);
+    border-color: var(--coral);
+    color: #fff;
+}
+
+.quantity-row {
+    margin-bottom: 24px;
+}
+.quantity-stepper {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: #fff;
+}
+.quantity-stepper button {
+    width: 36px;
+    height: 36px;
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    cursor: pointer;
+    color: var(--ink);
+}
+.quantity-stepper button:hover {
+    color: var(--coral);
+}
+.quantity-stepper span {
+    width: 32px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.action-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.btn-primary {
+    flex: 1;
+    background: var(--coral);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 14px 24px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+.btn-primary:hover {
+    background: var(--coral-dark);
+}
+
+.btn-secondary {
+    width: 52px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 1.2rem;
+    color: var(--coral);
+    cursor: pointer;
+}
+.btn-secondary:hover {
+    border-color: var(--coral);
+}
+
+.stock-note {
+    font-size: 0.85rem;
+    margin-bottom: 24px;
+}
+.stock-note.in-stock {
+    color: #3f7d4f;
+}
+.stock-note.out-of-stock {
+    color: var(--coral-dark);
+}
+
+.detail-accordion {
+    border-top: 1px solid var(--border);
+}
+.detail-accordion details {
+    border-bottom: 1px solid var(--border);
+    padding: 14px 0;
+}
+.detail-accordion summary {
+    cursor: pointer;
+    font-weight: 600;
+    list-style: none;
+}
+.detail-accordion summary::-webkit-details-marker {
+    display: none;
+}
+.detail-accordion summary::after {
+    content: "+";
+    float: right;
+    color: var(--coral);
+}
+.detail-accordion details[open] summary::after {
+    content: "-";
+}
+.detail-accordion p {
+    color: var(--ink-soft);
+    margin-top: 10px;
+    line-height: 1.6;
 }
