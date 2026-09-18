@@ -8,71 +8,101 @@
 
 <PageTitle>Cart</PageTitle>
 
+<style>
+    .cart-page { max-width: 800px; margin: 2rem auto; font-family: sans-serif; }
+    .guest-banner { background: #f4f4f4; padding: 0.75rem 1rem; border-radius: 6px; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center; }
+    .guest-banner button { margin-left: 0.5rem; padding: 0.4rem 0.9rem; border-radius: 4px; border: 1px solid #ccc; background: white; cursor: pointer; }
+    .guest-banner button:hover { background: #eee; }
+    .cart-item { display: flex; align-items: center; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid #ddd; }
+    .cart-item img { border-radius: 4px; }
+    .cart-item-details { flex: 1; }
+    .cart-item-details h3 { margin: 0 0 0.25rem 0; }
+    .cart-item-details button { margin-right: 0.5rem; font-size: 0.85rem; background: none; border: none; color: #555; cursor: pointer; text-decoration: underline; }
+    .cart-item-actions { display: flex; align-items: center; gap: 0.5rem; }
+    .cart-item-actions button { width: 28px; height: 28px; border-radius: 4px; border: 1px solid #ccc; background: white; cursor: pointer; }
+    .order-summary { margin-top: 1.5rem; padding: 1rem; background: #fafafa; border-radius: 6px; }
+    .order-summary div { display: flex; justify-content: space-between; margin-bottom: 0.4rem; }
+    .summary-total { font-weight: bold; border-top: 1px solid #ccc; padding-top: 0.5rem; margin-top: 0.5rem; }
+    .checkout-btn { margin-top: 1rem; width: 100%; padding: 0.75rem; background: #222; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 1rem; }
+    .checkout-btn:hover { background: #444; }
+</style>
+
 @if (cart is null)
 {
     <p>Loading your cart...</p>
 }
 else
 {
-    <section class="cart-page">
-        <div class="cart-items">
-            @foreach (var item in cart.Items.Where(i => !i.IsSavedForLater))
-            {
-                <article class="cart-item">
-                    <div class="cart-item-image">
-                        <img src="@item.ProductVariant.Product.Images.OrderBy(img => img.DisplayOrder).FirstOrDefault()?.ImagePath"
-                             alt="@item.ProductVariant.Product.ShortName" style="width:80px;" />
-                    </div>
-                    <div class="cart-item-details">
-                        <h3>@item.ProductVariant.Product.ShortName</h3>
-                        <p>@item.ProductVariant.ProductSize @item.ProductVariant.ProductColor</p>
-                        <button @onclick="() => SaveForLater(item)">Save for later</button>
-                        <button @onclick="() => RemoveItem(item)">Remove</button>
-                    </div>
-                    <div class="cart-item-actions">
-                        <button @onclick="() => ChangeQuantity(item, -1)">−</button>
-                        <span>@item.Quantity</span>
-                        <button @onclick="() => ChangeQuantity(item, 1)">+</button>
-                        <strong>@((item.Quantity * item.ProductVariant.RetailPrice).ToString("C"))</strong>
-                    </div>
-                </article>
-            }
+    <div class="cart-page">
+        <div class="guest-banner">
+            <span>Welcome, Guest @guestToken?.Substring(0, 8)</span>
+            <span>
+                <button @onclick="GoToLogin">Log In</button>
+                <button @onclick="ContinueAsGuest">Continue as Guest</button>
+            </span>
         </div>
 
-        @if (cart.Items.Any(i => i.IsSavedForLater))
+        @if (!cart.Items.Any(i => !i.IsSavedForLater))
         {
-            <h2>Saved for later</h2>
-            @foreach (var item in cart.Items.Where(i => i.IsSavedForLater))
-            {
-                <article class="cart-item">
-                    <h3>@item.ProductVariant.Product.ShortName</h3>
-                    <button @onclick="() => MoveToCart(item)">Move to cart</button>
-                    <button @onclick="() => RemoveItem(item)">Remove</button>
-                </article>
-            }
+            <p>Your basket is currently empty.</p>
         }
+        else
+        {
+            <div class="cart-items">
+                @foreach (var item in cart.Items.Where(i => !i.IsSavedForLater))
+                {
+                    <article class="cart-item">
+                        <img src="@item.ProductVariant.Product.Images.OrderBy(img => img.DisplayOrder).FirstOrDefault()?.ImagePath"
+                             alt="@item.ProductVariant.Product.ShortName" style="width:80px;" />
+                        <div class="cart-item-details">
+                            <h3>@item.ProductVariant.Product.ShortName</h3>
+                            <p>@item.ProductVariant.ProductSize @item.ProductVariant.ProductColor</p>
+                            <button @onclick="() => SaveForLater(item)">Save for later</button>
+                            <button @onclick="() => RemoveItem(item)">Remove</button>
+                        </div>
+                        <div class="cart-item-actions">
+                            <button @onclick="() => ChangeQuantity(item, -1)">−</button>
+                            <span>@item.Quantity</span>
+                            <button @onclick="() => ChangeQuantity(item, 1)">+</button>
+                            <strong>@((item.Quantity * item.ProductVariant.RetailPrice).ToString("C"))</strong>
+                        </div>
+                    </article>
+                }
+            </div>
 
-        <aside class="order-summary">
-            <div><span>Subtotal</span><strong>@SubTotal.ToString("C")</strong></div>
-            <div><span>Shipping</span><strong>@ShippingCost.ToString("C")</strong></div>
-            <div><span>Estimated tax</span><strong>@TaxAmount.ToString("C")</strong></div>
-            <div class="summary-total"><span>Total</span><strong>@OrderTotal.ToString("C")</strong></div>
+            @if (cart.Items.Any(i => i.IsSavedForLater))
+            {
+                <h2>Saved for later</h2>
+                @foreach (var item in cart.Items.Where(i => i.IsSavedForLater))
+                {
+                    <article class="cart-item">
+                        <h3>@item.ProductVariant.Product.ShortName</h3>
+                        <button @onclick="() => MoveToCart(item)">Move to cart</button>
+                        <button @onclick="() => RemoveItem(item)">Remove</button>
+                    </article>
+                }
+            }
 
-            <button @onclick="ProceedToCheckout" disabled="@(!cart.Items.Any(i => !i.IsSavedForLater))">
-                Continue to checkout
-            </button>
-        </aside>
-    </section>
+            <div class="order-summary">
+                <div><span>Subtotal</span><strong>@SubTotal.ToString("C")</strong></div>
+                <div><span>Shipping</span><strong>@ShippingCost.ToString("C")</strong></div>
+                <div><span>Estimated tax</span><strong>@TaxAmount.ToString("C")</strong></div>
+                <div class="summary-total"><span>Total</span><strong>@OrderTotal.ToString("C")</strong></div>
+                <button class="checkout-btn" @onclick="ProceedToCheckout">Continue to checkout</button>
+            </div>
+        }
+    </div>
 }
 
 @code {
     private Data.Cart? cart;
+    private string? guestToken;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            var guestToken = await GuestCartService.GetOrCreateGuestTokenAsync();
+            guestToken = await GuestCartService.GetOrCreateGuestTokenAsync();
             cart = await GuestCartService.GetOrCreateCurrentCartAsync(guestToken);
             StateHasChanged();
         }
@@ -113,5 +143,16 @@ else
     private void ProceedToCheckout()
     {
         NavigationManager.NavigateTo("/checkout");
+    }
+
+    private void GoToLogin()
+    {
+        NavigationManager.NavigateTo("/login");
+    }
+
+    private void ContinueAsGuest()
+    {
+        // For now, just a no-op — the guest is already browsing as a guest.
+        // Later: this is where we'd prompt for email/name if not already captured.
     }
 }
